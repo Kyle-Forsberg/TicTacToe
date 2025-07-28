@@ -1,0 +1,1 @@
+g++ main.cpp TextureManager.cpp SDLGameObject.cpp  GameObject.cpp game.cpp TicTacToeBoard.cpp -lSDL2 -lSDL2_image -o game

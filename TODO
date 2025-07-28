@@ -1,0 +1,4 @@
+--flush inputs after delay so input given during the inbetween games
+doesnt spawn something right away when the board resets
+
+--needs some style badly
