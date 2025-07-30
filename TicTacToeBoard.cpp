@@ -69,7 +69,7 @@ void TicTacToeBoard::update(){
 	if(winstate == RESETAWAIT){
 		std::cout << "awaiting reset of the game\n";
 		game_end_time = ((unsigned long)(SDL_GetTicks()));
-		std::cout << game_end_time << "\n";
+		std::cout << "game end time update(): " << game_end_time << "\n";
 		winstate = RESETTING;
 		resetBoard();
 		return;
@@ -78,20 +78,25 @@ void TicTacToeBoard::update(){
 	if(winstate!=0){						
 		if(winstate == CATSGAME){
 			std::cout << "Catsgame";
+			game_end_time = ((unsigned long)(SDL_GetTicks()));
 			tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"catsgame")));
-			winstate = RESETAWAIT;		//another sneaky here, this 4 is declaring a board reset to come, 
-								//but this needs to yeild so it can be rendered.
+			winstate = RESETAWAIT;		
+			return;
 		}
 		else{
-			if(winstate == 1){
-				std::cout << "player 1 win";
+			if(winstate == PLAYER1WIN){
+				std::cout << "player 1 win\n";
+				game_end_time = ((unsigned long)(SDL_GetTicks()));
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player1")));
 				winstate = RESETAWAIT;
+				return;
 			}
-			if(winstate == 2){
-				std::cout << "player 2 win";
+			if(winstate == PLAYER2WIN){
+				std::cout << "player 2 win\n";
+				game_end_time = ((unsigned long)(SDL_GetTicks()));
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player2")));
 				winstate = RESETAWAIT;
+				return;
 			}
 
 			//std::cout << "Player " << winstate << " Won the game!";
@@ -254,9 +259,9 @@ void TicTacToeBoard::checkWin() {
 			}
 		}
 	}
-	if(allFilled == true){
+	if(allFilled == true && winsate == 0){						//added == 0 to make sure a win on the 9th move doesnt register as catsgame
 		std::cout << "looks like a cats game to me pal \n";
-		winstate = 3;
+		winstate = CATSGAME;
 		
 		//code for reset board
 	}
@@ -265,24 +270,27 @@ void TicTacToeBoard::checkWin() {
 
 void TicTacToeBoard::resetBoard(){
 	unsigned long current_gametime = (unsigned long)(SDL_GetTicks());
-	if(  current_gametime > (game_end_time + 5000)){
+	std::cout << "resetboard() " << current_gametime << "\n";
+	if(  (current_gametime-7000) > (game_end_time) ){
 		std::cout<< "reset check still waiting\n";
 		winstate = RESETTING;
-		return;
-		//wait for 5000 ticks before allowing reset
+		//wait for 10000 ticks before allowing reset
 	}
-	std::cout << "we have made it into reset board\n";
-	tictacs.clear();
-	tictacs.push_back(Highlighter);
-	for(int i = 0; i < 3; i++){
-		for(int j = 0; j < 3; j++){
-			gamestate[i][j]=0;
+	else{
+		std::cout << "we have made it into reset board\n";
+		tictacs.clear();
+		tictacs.push_back(Highlighter);
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				gamestate[i][j]=0;
+			}
 		}
+		//objects have been cleared (memleak???)
+		//game state cleared back to all zeros
+
+		winstate = 0;
+		//winstate reset
 	}
-	//objects have been cleared (memleak???)
-	//game state cleared back to all zeros
-	winstate = 0;
-	//winstate reset
 }
 
 
