@@ -42,6 +42,8 @@ class TicTacToeBoard : public SDLGameObject {
 	void checkWin();
 	int winstate;
 	int playerup = 1;
+	bool reset_wait_over;
+	unsigned long game_end_time;
 
 	SDLGameObject * Highlighter;
 

@@ -4,6 +4,13 @@
 #include "TicTacToeBoard.hpp"
 
 
+#define NOWIN 0
+#define PLAYER1WIN 1
+#define PLAYER2WIN 2
+#define CATSGAME 3
+#define RESETAWAIT 4
+#define RESETTING 5
+
 
 TicTacToeBoard::TicTacToeBoard(const LoaderParams *params) : SDLGameObject (params) {
 	
@@ -54,10 +61,18 @@ void TicTacToeBoard::draw(){
 }
 
 void TicTacToeBoard::update(){
-	if(winstate == 4){
+	if(winstate == RESETTING){
+		std::cout << "winstate is RESETTING\n";
+		resetBoard();		//essentially hand update over to this function.
+		return;
+	}
+	if(winstate == RESETAWAIT){
 		std::cout << "awaiting reset of the game\n";
-		SDL_Delay(5000);
+		game_end_time = ((unsigned long)(SDL_GetTicks()));
+		std::cout << game_end_time << "\n";
+		winstate = RESETTING;
 		resetBoard();
+		return;
 		//since resetBoard also resets winstate, this works
 	}
 	if(winstate!=0){						
@@ -151,8 +166,9 @@ int TicTacToeBoard::getHighlightedX(){
 }
 bool TicTacToeBoard::makeMove(){
 	bool res;
+	if(highlighted == 0){return false;}
 	if(playerup>2) { playerup = 1; }
-	
+		
 	if(playerup==1){
 		res = addX();
 	}
@@ -248,6 +264,13 @@ void TicTacToeBoard::checkWin() {
 }
 
 void TicTacToeBoard::resetBoard(){
+	unsigned long current_gametime = (unsigned long)(SDL_GetTicks());
+	if(  current_gametime > (game_end_time + 5000)){
+		std::cout<< "reset check still waiting\n";
+		winstate = RESETTING;
+		return;
+		//wait for 5000 ticks before allowing reset
+	}
 	std::cout << "we have made it into reset board\n";
 	tictacs.clear();
 	tictacs.push_back(Highlighter);
