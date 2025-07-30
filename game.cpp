@@ -111,11 +111,11 @@ void Game::handleEvents(){
 				break;
 			default: break;
 		}
+		
 	}
 }
 
-void Game::update()
-{
+void Game::update(){
 		
 	for(std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size();i++){
 		m_gameObjects[i]->update();
