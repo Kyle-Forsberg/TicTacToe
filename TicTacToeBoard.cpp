@@ -76,22 +76,22 @@ void TicTacToeBoard::update(){
 		//since resetBoard also resets winstate, this works
 	}
 	if(winstate!=0){						
-		if(winstate == 3){
-			std::cout << "3";
+		if(winstate == CATSGAME){
+			std::cout << "Catsgame";
 			tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"catsgame")));
-			winstate = 4;		//another sneaky here, this 4 is declaring a board reset to come, 
+			winstate = RESETAWAIT;		//another sneaky here, this 4 is declaring a board reset to come, 
 								//but this needs to yeild so it can be rendered.
 		}
 		else{
 			if(winstate == 1){
-				std::cout << "1";
+				std::cout << "player 1 win";
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player1")));
-				winstate = 4;
+				winstate = RESETAWAIT;
 			}
 			if(winstate == 2){
-				std::cout << "2";
+				std::cout << "player 2 win";
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player2")));
-				winstate = 4;
+				winstate = RESETAWAIT;
 			}
 
 			//std::cout << "Player " << winstate << " Won the game!";
@@ -166,7 +166,7 @@ int TicTacToeBoard::getHighlightedX(){
 }
 bool TicTacToeBoard::makeMove(){
 	bool res;
-	if(highlighted == 0){return false;}
+	if(highlighted == 0){return false;} 	//also skips playerup++ effectively nulling this whole function :)
 	if(playerup>2) { playerup = 1; }
 		
 	if(playerup==1){
