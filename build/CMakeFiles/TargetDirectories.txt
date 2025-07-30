@@ -1,3 +1,0 @@
-/Users/kyleforsberg/code/c/games/TicTacToe/build/CMakeFiles/game.dir
-/Users/kyleforsberg/code/c/games/TicTacToe/build/CMakeFiles/edit_cache.dir
-/Users/kyleforsberg/code/c/games/TicTacToe/build/CMakeFiles/rebuild_cache.dir
