@@ -62,20 +62,17 @@ void TicTacToeBoard::draw(){
 }
 
 void TicTacToeBoard::update(){
-	if(winstate == RESETTING){
-		std::cout << "winstate is RESETTING\n";
-		resetBoard();		//essentially hand update over to this function.
+	//think we can do without resetting, so removed that block
+	if (winstate == RESETAWAIT) {
+		unsigned long current_time = ((unsigned long)(SDL_GetTicks()));
+		std::cout << "RESETAWAIT | Time left: " << current_time - game_end_time << "ms\n";
+		if (current_time - game_end_time >= 2000) {
+			std::cout << "5 seconds passed calling resetBoard\n";
+			resetBoard(); 
+		}
 		return;
 	}
-	if(winstate == RESETAWAIT){
-		std::cout << "awaiting reset of the game\n";
-		game_end_time = ((unsigned long)(SDL_GetTicks()));
-		std::cout << "game end time update(): " << game_end_time << "\n";
-		winstate = RESETTING;
-		resetBoard();
-		return;
-		//since resetBoard also resets winstate, this works
-	}
+
 	if(winstate!=0){						
 		if(winstate == CATSGAME){
 			std::cout << "Catsgame";
@@ -90,6 +87,7 @@ void TicTacToeBoard::update(){
 				game_end_time = ((unsigned long)(SDL_GetTicks()));
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player1")));
 				winstate = RESETAWAIT;
+
 				return;
 			}
 			if(winstate == PLAYER2WIN){
@@ -100,7 +98,6 @@ void TicTacToeBoard::update(){
 				return;
 			}
 
-			//std::cout << "Player " << winstate << " Won the game!";
 		}
 		std::cout << "0";
 	}
@@ -275,33 +272,28 @@ void TicTacToeBoard::checkWin() {
 		//code for reset board
 	}
 	
+	//consider removing changed bool sometime when it works right
 	
 
 }
 
 void TicTacToeBoard::resetBoard(){
-	unsigned long current_gametime = ((unsigned long)(SDL_GetTicks()));
-	std::cout << "resetboard() " << current_gametime << "\n";
-	if(  (current_gametime-5000) > (game_end_time) ){
-		std::cout<< "reset check still waiting\n";
-		winstate = RESETTING;
-		//wait for 10000 ticks before allowing reset
-	}
-	else if (winstate != RESETAWAIT) {		//make sure we dont get here if were stalling in between games
-		std::cout << "we have made it into reset board\n";
-		tictacs.clear();
-		tictacs.push_back(Highlighter);
-		for(int i = 0; i < 3; i++){
-			for(int j = 0; j < 3; j++){
-				gamestate[i][j]=0;
-			}
+	//removed a lot of state checking up here, 
+	//need to just call resetBoard only when it needs to be reset
+	//who would have thought of that?
+	std::cout << "we have made it into reset board\n";
+	tictacs.clear();
+	tictacs.push_back(Highlighter);
+	for(int i = 0; i < 3; i++){
+		for(int j = 0; j < 3; j++){
+			gamestate[i][j]=0;
 		}
-		//objects have been cleared (memleak???)
-		//game state cleared back to all zeros
-
-		winstate = 0;
-		//winstate reset
 	}
+	//game state cleared back to all zeros
+
+	winstate = 0;
+	//winstate reset
+	
 }
 
 
