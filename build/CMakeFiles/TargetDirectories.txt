@@ -1,3 +1,0 @@
-/home/kyle/code/c/games/ttt/build/CMakeFiles/game.dir
-/home/kyle/code/c/games/ttt/build/CMakeFiles/edit_cache.dir
-/home/kyle/code/c/games/ttt/build/CMakeFiles/rebuild_cache.dir
