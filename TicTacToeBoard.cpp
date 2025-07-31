@@ -31,6 +31,7 @@ void TicTacToeBoard::alignHighlight(){
 	if(highlighted == 0){
 		Highlighter->m_position.setX(1921);
 		Highlighter->m_position.setY(1081);
+		// move it off the screen
 	}
 	else{
 		int x = getHighlightedX();
@@ -110,7 +111,7 @@ void TicTacToeBoard::update(){
 }
 
 void TicTacToeBoard::clean(){
-
+	//implement eventually maybe probably not
 }
 
 void TicTacToeBoard::mouseToBox(int x, int y){
@@ -132,6 +133,8 @@ void TicTacToeBoard::mouseToBox(int x, int y){
 					tempx+=214;
 				}
 				highlighted = ((foundy * 3) + foundx) -3;
+				//converts the x and y to a box number since I dont want to 
+				//pass around 2 numbers, probably just lazy
 				return;
 			}
 	}
@@ -181,6 +184,7 @@ bool TicTacToeBoard::makeMove(){
 		res = addCircle();
 	}
 	playerup++;
+	checkWin();
 	return res;
 }
 
@@ -193,7 +197,6 @@ bool TicTacToeBoard::addCircle(){
 		tictacs.push_back(new SDLGameObject(new LoaderParams(translateX(x), translateY(y), 150,150, "circle")));
 		//add new game object
 		std::cout << "added a circle\n";
-		checkWin();
 		return true;
 	}
 	return false;
@@ -206,7 +209,6 @@ bool TicTacToeBoard::addX(){
 		gamestate[x][y]=1;
 		tictacs.push_back(new SDLGameObject(new LoaderParams(translateX(x),translateY(y),150,150,"x")));
 		std::cout << "added an X\n";
-		checkWin();
 
 		return true;
 	}
@@ -220,12 +222,15 @@ void badPlacement(){
 
 
 void TicTacToeBoard::checkWin() {
+	std::cout << "checking for a win\n";
+	bool changed = false;
 	if(winstate != 0){winstate = 4;}//so we dont overwrite that asap and ruin things
     for (int row = 0; row < 3; ++row) {
         if (gamestate[row][0] != 0 &&
             gamestate[row][0] == gamestate[row][1] &&
             gamestate[row][1] == gamestate[row][2]) {
             winstate = gamestate[row][0]; 
+			changed = true;
         }
     }
 
@@ -234,6 +239,7 @@ void TicTacToeBoard::checkWin() {
             gamestate[0][col] == gamestate[1][col] &&
             gamestate[1][col] == gamestate[2][col]) {
             winstate = gamestate[0][col];  
+			changed = true;
         }
     }
 
@@ -241,12 +247,14 @@ void TicTacToeBoard::checkWin() {
         gamestate[0][0] == gamestate[1][1] &&
         gamestate[1][1] == gamestate[2][2]) {
         winstate = gamestate[0][0];  
+		changed = true;
     }
 
     if (gamestate[0][2] != 0 &&
         gamestate[0][2] == gamestate[1][1] &&
         gamestate[1][1] == gamestate[2][0]) {
         winstate = gamestate[0][2];  
+		changed = true;
     }
 
     
@@ -259,24 +267,27 @@ void TicTacToeBoard::checkWin() {
 			}
 		}
 	}
-	if(allFilled == true && winsate == 0){						//added == 0 to make sure a win on the 9th move doesnt register as catsgame
+	if(allFilled == true && winstate == 0){						//added == 0 to make sure a win on the 9th move doesnt register as catsgame
 		std::cout << "looks like a cats game to me pal \n";
 		winstate = CATSGAME;
+		changed = true;
 		
 		//code for reset board
 	}
+	
+	
 
 }
 
 void TicTacToeBoard::resetBoard(){
-	unsigned long current_gametime = (unsigned long)(SDL_GetTicks());
+	unsigned long current_gametime = ((unsigned long)(SDL_GetTicks()));
 	std::cout << "resetboard() " << current_gametime << "\n";
-	if(  (current_gametime-7000) > (game_end_time) ){
+	if(  (current_gametime-5000) > (game_end_time) ){
 		std::cout<< "reset check still waiting\n";
 		winstate = RESETTING;
 		//wait for 10000 ticks before allowing reset
 	}
-	else{
+	else if (winstate != RESETAWAIT) {		//make sure we dont get here if were stalling in between games
 		std::cout << "we have made it into reset board\n";
 		tictacs.clear();
 		tictacs.push_back(Highlighter);
