@@ -40,6 +40,7 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 				ttt = new TicTacToeBoard(new LoaderParams((WINDOWWIDTH/2)-(640/2),(WINDOWHEIGHT/2)-(480/2),640,480,"grid"));
 				if(!TheTextureManager::Instance()->load("assets/x.png","x",m_pRenderer)){std::cerr << "issue loading 'x'\n";}
 				if(!TheTextureManager::Instance()->load("assets/highlight.png","highlight",m_pRenderer)){std::cerr << "error loading HL\n";}
+	//used to check after a move was made, but now its here because debugging
 
 				if(!TheTextureManager::Instance()->load("assets/Player1.png","player1",m_pRenderer)){std::cerr << "error loading P1\n";}
 				if(!TheTextureManager::Instance()->load("assets/Player2.png","player2",m_pRenderer)){std::cerr << "error loading P2\n";}

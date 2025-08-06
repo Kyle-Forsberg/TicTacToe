@@ -1,19 +1,33 @@
+#ifndef STARTSCREEN_HPP
+#define STARTSCREEN_HPP
+
 #include <iostream>
-#include "SDLGameObject.cpp"
+#include "SDLGameObject.h"
+#include "LoaderParams.h"
 #include <vector>
+#include <SDL2/SDL.h>
 
 
-class StartScreen : public SDLGameObject{
-	StartScreen();
-	~StartScreen();
+class StartScreen : public SDLGameObject {
+	public:
+	StartScreen(const LoaderParams* params);
+	//~StartScreen();
+
+	virtual void draw();
+	virtual void update();
+	virtual void clean();
 
 
+	bool init(SDL_Renderer*);
+		
 
-
+	int status;
 	std::vector<SDLGameObject*> objects;
 	
-	int submit();		//returns the state in which the game is to be played
+	int submit(int,int);		//returns the state in which the game is to be played
 				//should also destroy this object;
-	
-}
+};
 
+
+
+#endif
