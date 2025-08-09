@@ -12,7 +12,7 @@
 #define WAITING 0
 #define SINGLEPLAYER 1
 #define MULTIPLAYER 2
-
+#define QUITOUT 3
 
 StartScreen::StartScreen(const LoaderParams * params) : SDLGameObject (params) {	//yep, we need to pass the renderer to the constructor :(
 	
@@ -43,6 +43,7 @@ bool StartScreen::init(SDL_Renderer* renderer){
 		std::cerr << "Error laoding TitlePage.png\n";
 		return false;
 	}
+	gamestarted = false;
 	return 0;
 }
 
@@ -66,6 +67,7 @@ void StartScreen::update(){
 	//I think it makes sense that this would have its own input handler if this is to act
 	//as its own little entity, since passing inputs or having if statements in game.cpp
 	//for the start screens input would be slower and less readable
+	//this is sneaky becuase this is update(), which is naturally called on all game objects in the loop too
 	int mouseX, mouseY;
 	//reuse of these variable names here? is this allowed?
 	SDL_Event event;
@@ -78,6 +80,11 @@ void StartScreen::update(){
 				//and see if we get to do something.
 			}
 		}
+		if(event.type == SDL_QUIT){
+			gamestarted = true;
+			status = QUITOUT;
+		}
+
 	}	
 }
 
