@@ -35,12 +35,12 @@ bool StartScreen::init(SDL_Renderer* renderer){
 	//will need to be called before we can show the start screen
 	//this is to avoid having substantially different constructors from other SDLGameObjects
 	if(!(TheTextureManager::Instance()->load("assets/StartButtonTemp.png","startbtn",renderer))){
-		std::cerr << "Error loading StartButtonTemp.png\n";
+		std::cout << "Error loading StartButtonTemp.png\n";
 		return false;
 		//give up if we fail even one
 	}
-	if(!(TheTextureManager::Instance()->load("assets/TitlePage.png","titlepage",renderer))){
-		std::cerr << "Error laoding TitlePage.png\n";
+	if(!(TheTextureManager::Instance()->load("assets/StartPage.png","StartScreen",renderer))){
+		std::cout << "Error loading TitlePage.png\n";
 		return false;
 	}
 	gamestarted = false;
