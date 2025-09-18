@@ -24,7 +24,6 @@ add_executable(game
     GameObject.cpp
     game.cpp
     TicTacToeBoard.cpp
-    StartScreen.cpp
 )
 
 target_link_libraries(game

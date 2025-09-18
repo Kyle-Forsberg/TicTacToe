@@ -8,7 +8,6 @@
 #include <vector>
 #include "Vector2D.h"
 #include "TicTacToeBoard.hpp"
-#include "StartScreen.hpp"
 
 class Game {
   public:
@@ -47,7 +46,7 @@ class Game {
 
     SDL_Window * m_pWindow;
     SDL_Renderer * m_pRenderer;
-    StartScreen * Start;
+
     bool m_bRunning;
     int m_currentFrame;
 

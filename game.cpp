@@ -10,7 +10,7 @@
 
 
 
-bool gamestart = false;
+
 Game * Game::s_pInstance = 0;
 
 //these will be moved to their own classes momentarily
@@ -45,16 +45,10 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 				if(!TheTextureManager::Instance()->load("assets/Player1.png","player1",m_pRenderer)){std::cerr << "error loading P1\n";}
 				if(!TheTextureManager::Instance()->load("assets/Player2.png","player2",m_pRenderer)){std::cerr << "error loading P2\n";}
 				if(!TheTextureManager::Instance()->load("assets/catsgame.png","catsgame",m_pRenderer)){std::cerr << "error loading Catgame\n";}
-				//m_gameObjects.push_back(ttt);
-				//wait to push ttt in until start screen is done
+				m_gameObjects.push_back(ttt);
+
 				//we are keeping a reference to this board here, so we make it and give it a name
 				//and then add it to the ole game objects vector
-				//if(!TheTextureManager::Instance()->load("assets/StartScreen.png","StartScreen",m_pRenderer)){std::cerr << "error loading StartScreen\n";}//WE LOAD FILES IN INIT of startscreen.cpp
-				Start = new StartScreen(new LoaderParams(0,0,WINDOWWIDTH,WINDOWHEIGHT,"StartScreen"));
-				Start->init(m_pRenderer);
-				//create start screen object, well keep this reference
-				//not putting it in the game object list though, didnt see a good way to keep
-				//the update function here the same with this so I just did it the reasonable way
 			}
 			else{
 				std::cout << "Renderer init failure\n";
@@ -71,7 +65,7 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		return false;
 	}
 	std::cout << "total init success\n";
-	m_bRunning = true;	//everything success, Lets start that main loop
+	m_bRunning = true;	//everything success, Lets start that main loop!
 	
 	//init new classes and add them to the vector of game objects
 	
@@ -114,7 +108,7 @@ void Game::handleEvents(){
 
 			case SDL_MOUSEBUTTONDOWN: 
 				std::cout << "Mouse button pressed\n";
-				if(event.button.button == SDL_BUTTON_LEFT && gamestart){ ttt->makeMove();}	//do not allow making move before game starts 
+				if(event.button.button == SDL_BUTTON_LEFT){ ttt->makeMove();}
 				break;
 			default: break;
 		}
@@ -123,11 +117,7 @@ void Game::handleEvents(){
 }
 
 void Game::update(){
-	if(!gamestart){
-		Start->update();
-		gamestart = Start->gamestarted;
-		//keeping gamestart a variable here since this check will run every frame, but this update only runs before game starts
-	}
+		
 	for(std::vector<GameObject*>::size_type i = 0; i != m_gameObjects.size();i++){
 		m_gameObjects[i]->update();
 	}

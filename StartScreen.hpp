@@ -19,9 +19,8 @@ class StartScreen : public SDLGameObject {
 
 
 	bool init(SDL_Renderer*);
-	
+		
 
-	bool gamestarted;
 	int status;
 	std::vector<SDLGameObject*> objects;
 	
