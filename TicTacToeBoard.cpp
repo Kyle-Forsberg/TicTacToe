@@ -180,7 +180,7 @@ bool TicTacToeBoard::makeMove(){
 	if(playerup==2){
 		res = addCircle();
 	}
-	playerup++;
+	playerup+=res;		//only increment when successful move made
 	checkWin();
 	return res;
 }
