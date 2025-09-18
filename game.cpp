@@ -23,11 +23,11 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	}
 
 	if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
-		std::cout << "SDL init success\n";
+		//std::cout << "SDL init success\n";
 		m_pWindow = SDL_CreateWindow(title,xpos,ypos,width,height,flags);
 
 		if(m_pWindow != 0){	//if zero it did not init right
-			std::cout << "Window creation success\n";
+			//std::cout << "Window creation success\n";
 			m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, 0);
 			if(m_pRenderer!=0){
 				std::cout << "Renderer Creation Success\n";
@@ -64,7 +64,7 @@ bool Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		std::cout << "SDL init failure\n";
 		return false;
 	}
-	std::cout << "total init success\n";
+	//std::cout << "total init success\n";
 	m_bRunning = true;	//everything success, Lets start that main loop!
 	
 	//init new classes and add them to the vector of game objects
@@ -86,7 +86,7 @@ void Game::render(){
 }
 
 void Game::clean(){
-	std::cout << "Cleaning the game\n";
+	//std::cout << "Cleaning the game\n";
 	SDL_DestroyWindow(m_pWindow);
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_Quit();
@@ -107,7 +107,7 @@ void Game::handleEvents(){
 				}break;
 
 			case SDL_MOUSEBUTTONDOWN: 
-				std::cout << "Mouse button pressed\n";
+				//std::cout << "Mouse button pressed\n";
 				if(event.button.button == SDL_BUTTON_LEFT){ ttt->makeMove();}
 				break;
 			default: break;

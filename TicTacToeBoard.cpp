@@ -65,9 +65,9 @@ void TicTacToeBoard::update(){
 	//think we can do without resetting, so removed that block
 	if (winstate == RESETAWAIT) {
 		unsigned long current_time = ((unsigned long)(SDL_GetTicks()));
-		std::cout << "RESETAWAIT | Time left: " << current_time - game_end_time << "ms\n";
+		//std::cout << "RESETAWAIT | Time left: " << current_time - game_end_time << "ms\n";
 		if (current_time - game_end_time >= 2000) {
-			std::cout << "5 seconds passed calling resetBoard\n";
+			//std::cout << "5 seconds passed calling resetBoard\n";
 			resetBoard(); 
 		}
 		return;
@@ -75,7 +75,7 @@ void TicTacToeBoard::update(){
 
 	if(winstate!=0){						
 		if(winstate == CATSGAME){
-			std::cout << "Catsgame";
+			//std::cout << "Catsgame";
 			game_end_time = ((unsigned long)(SDL_GetTicks()));
 			tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"catsgame")));
 			winstate = RESETAWAIT;		
@@ -83,7 +83,7 @@ void TicTacToeBoard::update(){
 		}
 		else{
 			if(winstate == PLAYER1WIN){
-				std::cout << "player 1 win\n";
+				//std::cout << "player 1 win\n";
 				game_end_time = ((unsigned long)(SDL_GetTicks()));
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player1")));
 				winstate = RESETAWAIT;
@@ -91,7 +91,7 @@ void TicTacToeBoard::update(){
 				return;
 			}
 			if(winstate == PLAYER2WIN){
-				std::cout << "player 2 win\n";
+				//std::cout << "player 2 win\n";
 				game_end_time = ((unsigned long)(SDL_GetTicks()));
 				tictacs.push_back(new SDLGameObject(new LoaderParams(0,0,1920,1080,"player2")));
 				winstate = RESETAWAIT;
@@ -193,7 +193,7 @@ bool TicTacToeBoard::addCircle(){
 		
 		tictacs.push_back(new SDLGameObject(new LoaderParams(translateX(x), translateY(y), 150,150, "circle")));
 		//add new game object
-		std::cout << "added a circle\n";
+		//std::cout << "added a circle\n";
 		return true;
 	}
 	return false;
@@ -205,7 +205,7 @@ bool TicTacToeBoard::addX(){
 	if(gamestate[x][y]==0){
 		gamestate[x][y]=1;
 		tictacs.push_back(new SDLGameObject(new LoaderParams(translateX(x),translateY(y),150,150,"x")));
-		std::cout << "added an X\n";
+		//std::cout << "added an X\n";
 
 		return true;
 	}
@@ -214,12 +214,12 @@ bool TicTacToeBoard::addX(){
 
 
 void badPlacement(){
-	std::cout << "cant do that\n";
+	//std::cout << "cant do that\n";
 }	//obv needs implementation
 
 
 void TicTacToeBoard::checkWin() {
-	std::cout << "checking for a win\n";
+	//std::cout << "checking for a win\n";
 	bool changed = false;
 	if(winstate != 0){winstate = 4;}//so we dont overwrite that asap and ruin things
     for (int row = 0; row < 3; ++row) {
@@ -265,7 +265,7 @@ void TicTacToeBoard::checkWin() {
 		}
 	}
 	if(allFilled == true && winstate == 0){						//added == 0 to make sure a win on the 9th move doesnt register as catsgame
-		std::cout << "looks like a cats game to me pal \n";
+		//std::cout << "looks like a cats game to me pal \n";
 		winstate = CATSGAME;
 		changed = true;
 		
@@ -281,7 +281,7 @@ void TicTacToeBoard::resetBoard(){
 	//removed a lot of state checking up here, 
 	//need to just call resetBoard only when it needs to be reset
 	//who would have thought of that?
-	std::cout << "we have made it into reset board\n";
+	//std::cout << "we have made it into reset board\n";
 	tictacs.clear();
 	tictacs.push_back(Highlighter);
 	for(int i = 0; i < 3; i++){
