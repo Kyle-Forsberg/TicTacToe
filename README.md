@@ -1,8 +1,9 @@
-Tic Tac Toe in C++
+## Tic Tac Toe in C++
 
 This is a very small Tic Tac Toe game built in C++. 
+The game's engine is built alongside examples from "SDL Game Development" by Shaun Mitchell (Packt publishing). 
 
-The only dependency is SDL2 because I wanted to keep things lightweight. You should first install SDL2 and SDL2_image using your Operating Systems Package Manager (brew, pacman, etc), then there is a one step build script called setup.sh, which should handle compililing the game (atleast for Mac and Linux systems), then just run the executable.
+The only dependency is SDL2 because I wanted to keep things lightweight. You should first install SDL2 and SDL2_image using your system's package manager (brew, pacman, etc), then there is a one step build script called setup.sh, which should handle compililing the game (atleast for Mac and Linux systems), then just run the executable.
 
 Use the mouse to click on where you want to place your piece, it will automatically switch to the next piece every click so sharing a mouse is required to play against someone. The game with automatically reset after 5 seconds. Use ESC to close the game.  
 
